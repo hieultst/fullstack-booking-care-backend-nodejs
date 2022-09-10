@@ -68,6 +68,12 @@ let getUserInforById = (userId) => {
 let updateUserData = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            if (!data.id || !data.positionId || !data.roleId || !data.gender) {
+                resolve({
+                    errCode: 2,
+                    errMessage: "Missing required parameters!",
+                });
+            }
             let user = await db.User.findOne({
                 where: { id: data.id },
             });
@@ -75,6 +81,11 @@ let updateUserData = (data) => {
                 user.firstName = data.firstName;
                 user.lastName = data.lastName;
                 user.address = data.address;
+                user.phoneNumber = data.phoneNumber;
+                user.gender = data.gender;
+                user.roleId = data.roleId;
+                user.positionId = data.positionId;
+                // user.image = data.image;
 
                 await user.save();
 
