@@ -215,7 +215,7 @@ let getAllCodeServer = (typeInput) => {
             if (!typeInput) {
                 resolve({
                     errCode: 1,
-                    errCodeMessage: "Missing required parameters !",
+                    errMessage: "Missing required parameters !",
                 });
             } else {
                 let res = {};
