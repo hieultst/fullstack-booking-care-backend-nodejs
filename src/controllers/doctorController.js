@@ -1,4 +1,5 @@
 import doctorService from "../services/doctorService";
+import _ from "lodash";
 
 let getTopDoctorHome = async (req, res) => {
     let limit = req.query.limit;
@@ -54,9 +55,37 @@ let getDetailDoctorById = async (req, res) => {
     }
 };
 
+// let getMarkdownById = async (req, res) => {
+//     try {
+//         let response = await doctorService.getMarkdownById(req.query.doctorId);
+//         return res.status(200).json(response);
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(200).json({
+//             errCode: -1,
+//             errMessage: "Error from server...",
+//         });
+//     }
+// };
+
+let bulkCreateSchedule = async (req, res) => {
+    try {
+        let response = await doctorService.bulkCreateSchedule(req.body);
+        return res.status(200).json(response);
+    } catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: "Error from server...",
+        });
+    }
+};
+
 module.exports = {
-    getTopDoctorHome: getTopDoctorHome,
-    getAllDoctors: getAllDoctors,
-    postInforDoctors: postInforDoctors,
-    getDetailDoctorById: getDetailDoctorById,
+    getTopDoctorHome,
+    getAllDoctors,
+    postInforDoctors,
+    getDetailDoctorById,
+    // getMarkdownById,
+    bulkCreateSchedule,
 };
