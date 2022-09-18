@@ -183,9 +183,7 @@ let getDetailDoctorById = (id) => {
 let bulkCreateSchedule = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("Check dât: ", data);
             if (!data.arrSchedule || !data.doctorId || !data.formatDate) {
-                console.log("Error");
                 resolve({
                     errCode: 1,
                     errMessage: "Missing required parameters",
@@ -234,6 +232,35 @@ let bulkCreateSchedule = (data) => {
     });
 };
 
+let getScheduleDoctorByDate = (doctorId, date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId || !date) {
+                resolve({
+                    errCode: 1,
+                    errMessage: "Missing required parameters",
+                });
+            } else {
+                let data = await db.Schedule.findAll({
+                    where: {
+                        doctorId: doctorId,
+                        date: date,
+                    },
+                });
+
+                if (!data) data = [];
+
+                resolve({
+                    errCode: 0,
+                    data: data,
+                });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 module.exports = {
     getTopDoctorHome,
     getAllDoctors,
@@ -241,4 +268,5 @@ module.exports = {
     getDetailDoctorById,
     // getMarkdownById,
     bulkCreateSchedule,
+    getScheduleDoctorByDate,
 };

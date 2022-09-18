@@ -33,6 +33,10 @@ let initWebRoutes = (app) => {
         doctorController.bulkCreateSchedule
     );
     // router.get("/api/get-markdown-by-id", doctorController.getMarkdownById);
+    router.get(
+        "/api/get-schedule-doctor-by-date",
+        doctorController.getScheduleDoctorByDate
+    );
 
     router.get("/api/allcode", userController.getAllCode);
 
