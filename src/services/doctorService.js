@@ -66,13 +66,20 @@ let saveDetailInforDoctor = (inputData) => {
                 !inputData.doctorId ||
                 !inputData.contentHTML ||
                 !inputData.contentMarkdown ||
-                !inputData.action
+                !inputData.action ||
+                !inputData.selectedPrice ||
+                !inputData.selectedPayment ||
+                !inputData.selectedProvince ||
+                !inputData.nameClinic ||
+                !inputData.addressClinic ||
+                !inputData.note
             ) {
                 resolve({
                     errCode: 1,
                     errMessage: "Missing required parameters !",
                 });
             } else {
+                // upsert to markdown
                 if (inputData.action === "CREATE") {
                     await db.Markdown.create({
                         contentHTML: inputData.contentHTML,
@@ -94,6 +101,37 @@ let saveDetailInforDoctor = (inputData) => {
                         doctorMarkdown.description = inputData.description;
                         await doctorMarkdown.save();
                     }
+                }
+
+                // upsert to doctor_infor
+                let doctor_infor = await db.Doctor_infor.findOne({
+                    where: {
+                        doctorId: inputData.doctorId,
+                    },
+                    raw: false,
+                });
+
+                if (doctor_infor) {
+                    // update
+                    doctor_infor.doctorId = inputData.doctorId;
+                    doctor_infor.priceId = inputData.selectedPrice;
+                    doctor_infor.provinceId = inputData.selectedProvince;
+                    doctor_infor.paymentId = inputData.selectedPayment;
+                    doctor_infor.nameClinic = inputData.nameClinic;
+                    doctor_infor.addressClinic = inputData.addressClinic;
+                    doctor_infor.note = inputData.note;
+                    await doctor_infor.save();
+                } else {
+                    // create
+                    await db.Doctor_infor.create({
+                        doctorId: inputData.doctorId,
+                        priceId: inputData.selectedPrice,
+                        provinceId: inputData.selectedProvince,
+                        paymentId: inputData.selectedPayment,
+                        nameClinic: inputData.nameClinic,
+                        addressClinic: inputData.addressClinic,
+                        note: inputData.note,
+                    });
                 }
                 resolve({
                     errCode: 0,
