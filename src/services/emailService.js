@@ -20,7 +20,14 @@ let sendSimpleEmail = async (dataSend) => {
         to: dataSend.reciverEmail, // list of receivers
         subject: "Thông tin đặt lịch khám bệnh", // Subject line
         text: "Hello world?", // plain text body
-        html: `
+        html: getBodyHTMLEmail(dataSend), // html body
+    });
+};
+
+let getBodyHTMLEmail = (dataSend) => {
+    let result = "";
+    if (dataSend.language === "vi") {
+        result = `
         <h3>Xin chào ${dataSend.patientName} !</h3>
         <p>Bạn nhận được email này thì đã đặt lịch khám bệnh online trên website hieult</p>
         <p>Thông tin đặt lịch khám bệnh: </p>
@@ -30,8 +37,22 @@ let sendSimpleEmail = async (dataSend) => {
         <p>Nếu các thông tin trên là đúng, vui lòng click vào đường link bên dưới để hoàn thành xác nhận đặt lịch khám bệnh</p>
         <div><a href=${dataSend.redirectLink} target="_blank">Click here</a></div>
         <div>Xin chân thành cảm ơn!</div>
-        `, // html body
-    });
+        `;
+    }
+    if (dataSend.language === "en") {
+        result = `
+        <h3>Dear ${dataSend.patientName} !</h3>
+        <p>If you received this email, you have already booked an online medical appointment on the hieult website</p>
+        <p>Information to schedule an appointment: </p>
+        <div><b>Time: ${dataSend.time}</b></div>
+        <div><b>Doctor: ${dataSend.doctorName}</b></div>
+
+        <p>If the above information is correct, please click on the link below to complete the booking confirmation</p>
+        <div><a href=${dataSend.redirectLink} target="_blank">Click here</a></div>
+        <div>Sincerely thank!</div>
+        `;
+    }
+    return result;
 };
 
 module.exports = {
