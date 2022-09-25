@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             });
             Allcode.hasMany(models.Doctor_infor, {
                 foreignKey: "paymentId",
-                as: "paymenData",
+                as: "paymentData",
             });
         }
     }
