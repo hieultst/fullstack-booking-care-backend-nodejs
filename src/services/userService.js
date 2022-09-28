@@ -13,6 +13,7 @@ let handleUserLogin = (email, password) => {
                 // User already exists
                 let user = await db.User.findOne({
                     attributes: [
+                        "id",
                         "email",
                         "roleId",
                         "password",

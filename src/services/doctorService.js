@@ -510,11 +510,16 @@ let getListPatientForDoctor = (doctorId, date) => {
                             ],
                             include: [
                                 {
-                                    model: db.AllCode,
-                                    as: "patientData",
+                                    model: db.Allcode,
+                                    as: "genderData",
                                     attributes: ["valueEn", "valueVi"],
                                 },
                             ],
+                        },
+                        {
+                            model: db.Allcode,
+                            as: "timeTypeDataPatient",
+                            attributes: ["valueEn", "valueVi"],
                         },
                     ],
                     raw: false,
