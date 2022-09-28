@@ -140,7 +140,7 @@ let saveDetailInforDoctor = (inputData) => {
                     doctor_infor.addressClinic = inputData.addressClinic;
                     doctor_infor.note = inputData.note;
                     doctor_infor.specialtyId = inputData.selectedSpecialty;
-                    // doctor_infor.clinicId = inputData.clinicId;
+                    doctor_infor.clinicId = inputData.clinicId;
                     await doctor_infor.save();
                 } else {
                     // create
@@ -153,7 +153,7 @@ let saveDetailInforDoctor = (inputData) => {
                         addressClinic: inputData.addressClinic,
                         note: inputData.note,
                         specialtyId: inputData.selectedSpecialty,
-                        // clinicId: inputData.clinicId,
+                        clinicId: inputData.clinicId,
                     });
                 }
                 resolve({

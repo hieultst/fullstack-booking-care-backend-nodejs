@@ -101,6 +101,6 @@ let getDetailSpecialtyById = (id, location) => {
 
 module.exports = {
     createSpecialty,
-    // getAllSpecialty,
-    // getDetailSpecialtyById,
+    getAllSpecialty,
+    getDetailSpecialtyById,
 };

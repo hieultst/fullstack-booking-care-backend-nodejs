@@ -58,10 +58,10 @@ let getAllClinic = () => {
     });
 };
 
-let getDetailClinicById = (id, location) => {
+let getDetailClinicById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!id || !location) {
+            if (!id) {
                 resolve({
                     errCode: -1,
                     errMessage: "Missing required parameters !",
@@ -71,22 +71,21 @@ let getDetailClinicById = (id, location) => {
                     where: {
                         id: id,
                     },
-                    attributes: ["descriptionHTML", "descriptionMarkdown"],
+                    attributes: [
+                        "name",
+                        "address",
+                        "descriptionHTML",
+                        "descriptionMarkdown",
+                    ],
                 });
 
                 if (data) {
                     let doctorClinic = [];
-                    if (location === "ALL") {
-                        doctorClinic = await db.Doctor_infor.findAll({
-                            where: { clinicId: id },
-                            attributes: ["doctorId", "provinceId"],
-                        });
-                    } else {
-                        doctorClinic = await db.Doctor_infor.findAll({
-                            where: { clinicId: id, provinceId: location },
-                            attributes: ["doctorId", "provinceId"],
-                        });
-                    }
+
+                    doctorClinic = await db.Doctor_infor.findAll({
+                        where: { clinicId: id },
+                        attributes: ["doctorId", "provinceId"],
+                    });
                     data.doctorClinic = doctorClinic;
                 } else data = {};
                 resolve({
@@ -103,6 +102,6 @@ let getDetailClinicById = (id, location) => {
 
 module.exports = {
     createClinic,
-    // getAllClinic,
-    // getDetailClinicById,
+    getAllClinic,
+    getDetailClinicById,
 };

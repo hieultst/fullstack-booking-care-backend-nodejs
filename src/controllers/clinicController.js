@@ -28,10 +28,7 @@ let getAllClinic = async (req, res) => {
 
 let getDetailClinicById = async (req, res) => {
     try {
-        let response = await clinicService.getDetailClinicById(
-            req.query.id,
-            req.query.location
-        );
+        let response = await clinicService.getDetailClinicById(req.query.id);
         return res.status(200).json(response);
     } catch (error) {
         console.log(error);
@@ -44,6 +41,6 @@ let getDetailClinicById = async (req, res) => {
 
 module.exports = {
     createClinic,
-    // getAllClinic,
-    // getDetailClinicById,
+    getAllClinic,
+    getDetailClinicById,
 };

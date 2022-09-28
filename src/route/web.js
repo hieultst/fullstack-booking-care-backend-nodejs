@@ -72,11 +72,11 @@ let initWebRoutes = (app) => {
 
     // Clinic
     router.post("/api/create-new-clinic", clinicController.createClinic);
-    // router.get("/api/get-all-clinic", clinicController.getAllClinic);
-    // router.get(
-    //     "/api/get-detail-clinic-by-id",
-    //     clinicController.getDetailClinicById
-    // );
+    router.get("/api/get-all-clinic", clinicController.getAllClinic);
+    router.get(
+        "/api/get-detail-clinic-by-id",
+        clinicController.getDetailClinicById
+    );
     return app.use("/", router);
 };
 
