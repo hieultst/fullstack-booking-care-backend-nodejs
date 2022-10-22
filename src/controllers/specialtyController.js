@@ -55,8 +55,8 @@ let deleteSpecialty = async (req, res) => {
 };
 
 let editSpecialty = async (req, res) => {
-    let specialtyData = req.body;
-    let message = await specialtyService.updateSpecialty(specialtyData);
+    let data = req.body;
+    let message = await specialtyService.updateSpecialty(data);
     return res.status(200).json(message);
 };
 

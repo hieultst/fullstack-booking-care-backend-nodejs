@@ -171,25 +171,25 @@ let updateSpecialty = (data) => {
     });
 };
 
-let getSpecialtyLimitTen = (limit) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let specialties = await db.Specialty.findAll({
-                limit: limit,
-                order: [["createdAt", "DESC"]],
-                attributes: ["nameVi", "nameEn"],
-                raw: true,
-                nest: true,
-            });
-            resolve({
-                errCode: 0,
-                data: specialties,
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
-};
+// let getSpecialtyLimitTen = (limit) => {
+//     return new Promise(async (resolve, reject) => {
+//         try {
+//             let specialties = await db.Specialty.findAll({
+//                 limit: limit,
+//                 order: [["createdAt", "DESC"]],
+//                 attributes: ["nameVi", "nameEn"],
+//                 raw: true,
+//                 nest: true,
+//             });
+//             resolve({
+//                 errCode: 0,
+//                 data: specialties,
+//             });
+//         } catch (error) {
+//             reject(error);
+//         }
+//     });
+// };
 
 module.exports = {
     createSpecialty,
@@ -197,5 +197,5 @@ module.exports = {
     getDetailSpecialtyById,
     deleteSpecialty,
     updateSpecialty,
-    getSpecialtyLimitTen,
+    // getSpecialtyLimitTen,
 };
