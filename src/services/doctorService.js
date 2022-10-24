@@ -44,16 +44,34 @@ let getTopDoctorHome = (limit) => {
 let getAllDoctors = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let doctors = await db.User.findAll({
+            let data = await db.User.findAll({
                 where: { roleId: "R2" },
                 attributes: {
-                    exclude: ["password", "image"],
+                    exclude: ["password"],
                 },
+                include: [
+                    {
+                        model: db.Allcode,
+                        as: "genderData",
+                        attributes: ["valueEn", "valueVi"],
+                    },
+                ],
+                raw: true,
+                nest: true,
             });
+
+            if (data && data.length > 0) {
+                data.map((item) => {
+                    item.image = new Buffer(item.image, "base64").toString(
+                        "binary"
+                    );
+                    return item;
+                });
+            }
 
             resolve({
                 errCode: 0,
-                data: doctors,
+                data: data,
             });
         } catch (error) {
             reject(error);
@@ -131,7 +149,6 @@ let saveDetailInforDoctor = (inputData) => {
                     },
                     raw: false,
                 });
-
                 if (doctor_infor) {
                     // update
                     doctor_infor.doctorId = inputData.doctorId;
@@ -242,30 +259,6 @@ let getDetailDoctorById = (id) => {
     });
 };
 
-// let getMarkdownById = (doctorId) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             if (!doctorId) {
-//                 resolve({
-//                     errCode: 1,
-//                     errMessage: "Missing required parameters !",
-//                 });
-//             } else {
-//                 let data = await db.Markdown.findOne({
-//                     where: { doctorId: doctorId },
-//                 });
-//                 if (!data) data = {};
-//                 resolve({
-//                     errCode: 0,
-//                     data: data,
-//                 });
-//             }
-//         } catch (error) {
-//             reject(error);
-//         }
-//     });
-// };
-
 let bulkCreateSchedule = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -288,14 +281,6 @@ let bulkCreateSchedule = (data) => {
                     where: { doctorId: data.doctorId, date: data.formatDate },
                     attributes: ["timeType", "date", "doctorId", "maxNumber"],
                 });
-
-                // // Convert date
-                // if (existing && existing.length > 0) {
-                //     existing = existing.map((item) => {
-                //         item.date = new Date(item.date).getTime();
-                //         return item;
-                //     });
-                // }
 
                 // Compare different
                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {

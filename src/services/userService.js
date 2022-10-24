@@ -155,6 +155,28 @@ let deleteUser = (userId) => {
                     errMessage: "The user isn't exist",
                 });
             }
+
+            if (user) {
+                let doctorMarkdown = await db.Markdown.findOne({
+                    where: {
+                        doctorId: userId,
+                    },
+                    raw: false,
+                });
+
+                if (doctorMarkdown) {
+                    await doctorMarkdown.destroy();
+                }
+                let doctorInfor = await db.Doctor_infor.findOne({
+                    where: {
+                        doctorId: userId,
+                    },
+                    raw: false,
+                });
+                if (doctorInfor) {
+                    await doctorInfor.destroy();
+                }
+            }
             await user.destroy();
 
             resolve({

@@ -36,7 +36,6 @@ let initWebRoutes = (app) => {
         "/api/bulk-create-schedule",
         doctorController.bulkCreateSchedule
     );
-    // router.get("/api/get-markdown-by-id", doctorController.getMarkdownById);
     router.get(
         "/api/get-schedule-doctor-by-date",
         doctorController.getScheduleDoctorByDate
@@ -70,10 +69,6 @@ let initWebRoutes = (app) => {
         specialtyController.createSpecialty
     );
     router.get("/api/get-all-specialty", specialtyController.getAllSpecialty);
-    // router.get(
-    //     "/api/get-specialty-limit-ten",
-    //     specialtyController.getSpecialtyLimitTen
-    // );
     router.get(
         "/api/get-detail-specialty-by-id",
         specialtyController.getDetailSpecialtyById

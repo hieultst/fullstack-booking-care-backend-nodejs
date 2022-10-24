@@ -85,7 +85,6 @@ let updateUserData = (data) => {
                 user.gender = data.gender;
                 user.roleId = data.roleId;
                 user.positionId = data.positionId;
-                // user.image = data.image;
 
                 await user.save();
 
